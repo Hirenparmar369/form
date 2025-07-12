@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>હરિપ્રીય પ્રદેશ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        input[type="text"], input[type="date"], input[type="tel"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffa500;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus, input[type="tel"]:focus, select:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #ff8c00;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #ff8c00;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
+        }
+
+        .attendance-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .attendance-list {
+            margin-top: 20px;
+        }
+
+        .attendance-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #ff8c00;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .stats-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff8c00, #ffa500);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .radio-group, .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>હરિપ્રીય પ્રદેશ</h1>
+            <p>સત્સંગ માટે નોંધણી કરો અને તમારી હાજરી નોંધાવો</p>
+        </div>
+
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                નોંધણી સફળતાપૂર્વક જમા કરાઈ!
+            </div>
+
+            <form id="attendanceForm">
+                <div class="form-group">
+                    <label for="fullName">પૂરું નામ:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fatherName">ફાધર નામ:</label>
+                    <input type="text" id="fatherName" name="fatherName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="surname">સરનેમ:</label>
+                    <input type="text" id="surname" name="surname" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">એડ્રેસ:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="village">ગામ:</label>
+                    <input type="text" id="village" name="village" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">સિટી:</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taluka">તાલુકો:</label>
+                    <input type="text" id="taluka" name="taluka" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="district">જિલ્લો:</label>
+                    <input type="text" id="district" name="district" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pincode">પિન કોડ:</label>
+                    <input type="text" id="pincode" name="pincode" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mobile">મોબાઈલ:</label>
+                    <input type="tel" id="mobile" name="mobile" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp">વિટસેપ નંબર:</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="birthdate">જન્મ તારીખ:</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bloodgroup">બ્લડ ગ્રુપ:</label>
+                    <select id="bloodgroup" name="bloodgroup" required>
+                        <option value="">બ્લડ ગ્રુપ પસંદ કરો</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>અંબરીશ છો?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="ambarish_yes" name="ambarish" value="yes">
+                            <label for="ambarish_yes">હા</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="ambarish_no" name="ambarish" value="no">
+                            <label for="ambarish_no">ના</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>સભ્ય પ્રકાર:</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="member_new" name="memberType" value="new">
+                            <label for="member_new">નવા</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="member_old" name="memberType" value="old">
+                            <label for="member_old">જૂના</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>શ્રેણીઓ:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="worker" name="categories" value="worker">
+                            <label for="worker">કાર્યકર્તા</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="youth" name="categories" value="youth">
+                            <label for="youth">યુવક</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>પૂજા રેગ્યુલર કરો છો?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="puja_yes" name="puja" value="yes">
+                            <label for="puja_yes">હા</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="puja_no" name="puja" value="no">
+                            <label for="puja_no">ના</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>સભા રેગ્યુલર ભરો છો?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="sabha_yes" name="sabha" value="yes">
+                            <label for="sabha_yes">હા</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="sabha_no" name="sabha" value="no">
+                            <label for="sabha_no">ના</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>દશમો/ વિસામો ભાગ આપો છો?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="dashmo_yes" name="dashmo" value="yes">
+                            <label for="dashmo_yes">હા</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="dashmo_no" name="dashmo" value="no">
+                            <label for="dashmo_no">ના</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">નોંધણી જમા કરો</button>
+            </form>
+
+            <div class="stats-section">
+                <h3>આંકડાકીય માહિતી</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalRegistrations">0</div>
+                        <div class="stat-label">કુલ નોંધણીઓ</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="ambarishCount">0</div>
+                        <div class="stat-label">અંબરીશ સભ્યો</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="regularPujaCount">0</div>
+                        <div class="stat-label">નિયમિત પૂજા</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="regularSabhaCount">0</div>
+                        <div class="stat-label">નિયમિત સભા</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="attendance-section">
+                <h3>હાજરીના રેકોર્ડ</h3>
+                <div class="attendance-list" id="attendanceList">
+                    <p>હજુ સુધી કોઈ નોંધણી નથી.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let attendanceData = [];
+
+        function updateStats() {
+            const totalRegistrations = attendanceData.length;
+            const ambarishCount = attendanceData.filter(record => record.ambarish === 'yes').length;
+            const regularPujaCount = attendanceData.filter(record => record.puja === 'yes').length;
+            const regularSabhaCount = attendanceData.filter(record => record.sabha === 'yes').length;
+
+            document.getElementById('totalRegistrations').textContent = totalRegistrations;
+            document.getElementById('ambarishCount').textContent = ambarishCount;
+            document.getElementById('regularPujaCount').textContent = regularPujaCount;
+            document.getElementById('regularSabhaCount').textContent = regularSabhaCount;
+        }
+
+        function updateAttendanceDisplay() {
+            const attendanceList = document.getElementById('attendanceList');
+            
+            if (attendanceData.length === 0) {
+                attendanceList.innerHTML = '<p>હજુ સુધી કોઈ નોંધણી નથી.</p>';
+                return;
+            }
+            
+            attendanceList.innerHTML = attendanceData.map((record, index) => `
+                <div class="attendance-item">
+                    <strong>${record.fullName}</strong><br>
+                    <small>મોબાઈલ: ${record.mobile} | ગામ: ${record.village} | નોંધણી: ${record.timestamp}</small><br>
+                    <small>અંબરીશ: ${record.ambarish === 'yes' ? 'હા' : 'ના'} | સભ્ય: ${record.memberType === 'new' ? 'નવા' : 'જૂના'}</small>
+                </div>
+            `).join('');
+        }
+
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        document.getElementById('attendanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Get all form data
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Handle checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (checkboxes.length > 0) {
+                data.categories = Array.from(checkboxes).map(cb => cb.value);
+            }
+            
+            // Add timestamp
+            data.timestamp = new Date().toLocaleString('gu-IN');
+            
+            // Add to attendance data
+            attendanceData.push(data);
+            
+            // Show success message
+            showSuccessMessage();
+            
+            // Clear form
+            this.reset();
+            
+            // Update displays
+            updateAttendanceDisplay();
+            updateStats();
+        });
+
+        // Initialize
+        updateAttendanceDisplay();
+        updateStats();
+    </script>
+</body>
+</html>
